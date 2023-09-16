@@ -27312,46 +27312,34 @@ var _movieView = require("../movie-view/movie.view");
 var _s = $RefreshSig$();
 const MainView = ()=>{
     _s();
-    const [movies, setMovies] = (0, _react.useState)([
-        {
-            _id: "64f494bc153401240829e59b",
-            Title: "Shawshank Redemption",
-            Description: "Two imprisoned men bond over a number of years, finding solace and eve…",
-            ImageURL: "https://i.ibb.co/MfpQPr0/shawshank-poster.png"
-        },
-        {
-            _id: "64f49568153401240829e5a0",
-            Title: "Jurassic Park",
-            Description: "A pragmatic paleontologist visiting an almost complete theme park is t…",
-            ImageURL: "https://i.ibb.co/hKT0Pr4/jurassic-poster.png"
-        },
-        {
-            _id: "64f495b3153401240829e5a4",
-            Title: "Star Wars",
-            Description: "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wooki…",
-            ImageURL: "https://i.ibb.co/FD5JpRC/starwars-poster.png"
-        },
-        {
-            _id: "64f4957b153401240829e5a1",
-            Title: "Inside Out",
-            Description: "After young Riley is uprooted from her Midwest life and moved to San F…",
-            ImageURL: "https://i.ibb.co/hFYsjhH/inside-poster.png"
-        }
-    ]);
+    const [movies, setMovies] = (0, _react.useState)([]);
+    (0, _react.useEffect)(()=>{
+        fetch("https://openlibrary.org/search.json?q=star+wars").then((response)=>response.json()).then((data)=>{
+            const moviesFromApi = data.docs.map((doc)=>{
+                return {
+                    _id: doc.key,
+                    title: doc.title,
+                    image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
+                    author: doc.author_name?.[0]
+                };
+            });
+            setMovies(moviesFromApi);
+        });
+    }, []);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
     if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieView.MovieView), {
         movie: selectedMovie,
         onBackClick: ()=>setSelectedMovie(null)
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 37,
+        lineNumber: 29,
         columnNumber: 7
     }, undefined);
     if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         children: "The list is empty!"
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 45,
+        lineNumber: 37,
         columnNumber: 12
     }, undefined);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27362,16 +27350,16 @@ const MainView = ()=>{
                 }
             }, movie._id, false, {
                 fileName: "src/components/main-view/main-view.jsx",
-                lineNumber: 51,
+                lineNumber: 43,
                 columnNumber: 9
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/main-view/main-view.jsx",
-        lineNumber: 49,
+        lineNumber: 41,
         columnNumber: 5
     }, undefined);
 };
-_s(MainView, "kJHrFnxbWfS8sM74v8auQWfElHs=");
+_s(MainView, "llzgrUkvR/+OoCNfiqlA1H2LLFI=");
 _c = MainView;
 var _c;
 $RefreshReg$(_c, "MainView");
@@ -27435,6 +27423,14 @@ const MovieCard = ({ movie , onMovieClick  })=>{
     }, undefined);
 };
 _c = MovieCard;
+MovieCard.propTypes = {
+    movie: PropTypes.shape({
+        Title: PropTypes.string.isRequired,
+        ImageURL: PropTypes.string.isRequired,
+        Description: PropTypes.string
+    }).isRequired,
+    onMovieClick: PropTypes.func.isRequired
+};
 var _c;
 $RefreshReg$(_c, "MovieCard");
 

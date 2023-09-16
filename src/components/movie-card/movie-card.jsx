@@ -9,3 +9,12 @@ export const MovieCard = ({ movie, onMovieClick }) => {
     </div>
   );
 };
+
+MovieCard.propTypes = {
+  movie: PropTypes.shape({
+    Title: PropTypes.string.isRequired,
+    ImageURL: PropTypes.string.isRequired,
+    Description: PropTypes.string,
+  }).isRequired,
+  onMovieClick: PropTypes.func.isRequired
+};
